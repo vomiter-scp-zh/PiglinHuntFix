@@ -1,5 +1,6 @@
 package com.vomiter.piglinhuntfix.common.event;
 
+import com.vomiter.piglinhuntfix.Config;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,6 +15,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 public class ProjectileSwapHandler {
 
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
+        if(!Config.PIGLIN_USE_SPECTRAL_ARROW) return;
         final Level level = event.getLevel();
         if (level.isClientSide) return;
 

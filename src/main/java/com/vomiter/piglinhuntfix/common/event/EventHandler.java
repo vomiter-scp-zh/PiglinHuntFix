@@ -1,5 +1,6 @@
 package com.vomiter.piglinhuntfix.common.event;
 
+import com.vomiter.piglinhuntfix.Config;
 import com.vomiter.piglinhuntfix.accessor.PiglinAIMethodAccessor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -45,6 +46,7 @@ public class EventHandler {
 
     // 1) Hoglin 被打到時，記錄最後攻擊者 piglin
     public static void onHoglinHurt(LivingHurtEvent event) {
+        if(!Config.GLOWING_HOGLIN_BROADCAST_HUNTING) return;
         if (event.getEntity().level().isClientSide) return;
         if (!(event.getEntity() instanceof Hoglin hoglin)) return;
 
@@ -61,6 +63,7 @@ public class EventHandler {
 
     // 2) Hoglin 發光時，每隔一段時間找 piglin 來 broadcast
     public static void onHoglinTick(LivingEvent.LivingTickEvent event) {
+        if(!Config.GLOWING_HOGLIN_BROADCAST_HUNTING) return;
         LivingEntity entity = event.getEntity();
         if (entity.level().isClientSide) return;
         if (!(entity instanceof Hoglin hoglin)) return;
