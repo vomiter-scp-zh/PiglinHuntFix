@@ -1,10 +1,10 @@
 package com.vomiter.piglinhuntfix.core;
 
 import com.vomiter.piglinhuntfix.accessor.PiglinAIMethodAccessor;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.OneShot;
 import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.entity.monster.piglin.Piglin;
 
@@ -27,7 +27,7 @@ public class PHFCore {
 
                     if (anyNearbyAdultHuntedRecently) return false;
 
-                    Hoglin hoglin = ctx.get(huntableHoglin);
+                    LivingEntity hoglin = ctx.get(huntableHoglin);
                     PiglinAIMethodAccessor.accessSetAngerTarget(piglin, hoglin);
                     PiglinAIMethodAccessor.accessDontKillAnyMoreHoglinsForAWhile(piglin);
                     PiglinAIMethodAccessor.accessBroadcastAngerTarget(piglin, hoglin);
