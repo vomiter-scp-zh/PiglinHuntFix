@@ -9,11 +9,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.living.ArmorHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +35,7 @@ public class EventHandler {
     private static final double RECRUIT_RADIUS = 24.0;
 
     public static void init() {
-        final IEventBus bus = MinecraftForge.EVENT_BUS;
+        final IEventBus bus = NeoForge.EVENT_BUS;
         bus.addListener(EventHandler::onRegisterCommands);
         bus.addListener(EventHandler::onHoglinTick);
         bus.addListener(EventHandler::onHoglinHurt);
@@ -45,7 +47,7 @@ public class EventHandler {
     }
 
     // 1) Hoglin 被打到時，記錄最後攻擊者 piglin
-    public static void onHoglinHurt(LivingHurtEvent event) {
+    public static void onHoglinHurt(LivingDamageEvent.Post event) {
         if(!Config.GLOWING_HOGLIN_BROADCAST_HUNTING) return;
         if (event.getEntity().level().isClientSide) return;
         if (!(event.getEntity() instanceof Hoglin hoglin)) return;
@@ -62,9 +64,9 @@ public class EventHandler {
     }
 
     // 2) Hoglin 發光時，每隔一段時間找 piglin 來 broadcast
-    public static void onHoglinTick(LivingEvent.LivingTickEvent event) {
+    public static void onHoglinTick(EntityTickEvent.Post event) {
         if(!Config.GLOWING_HOGLIN_BROADCAST_HUNTING) return;
-        LivingEntity entity = event.getEntity();
+        Entity entity = event.getEntity();
         if (entity.level().isClientSide) return;
         if (!(entity instanceof Hoglin hoglin)) return;
 

@@ -4,14 +4,17 @@ import com.mojang.logging.LogUtils;
 import com.vomiter.piglinhuntfix.common.event.EventHandler;
 import com.vomiter.piglinhuntfix.data.ModDataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.IExtensionPoint;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkConstants;
+import net.neoforged.fml.IExtensionPoint;
 import org.slf4j.Logger;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+
 
 @Mod(PiglinHuntFix.MOD_ID)
 public class PiglinHuntFix
@@ -24,19 +27,11 @@ public class PiglinHuntFix
         return PHFHelpers.id(PiglinHuntFix.MOD_ID, path);
     }
 
-    public PiglinHuntFix(FMLJavaModLoadingContext context) {
+    public PiglinHuntFix(ModContainer mod, IEventBus modBus) {
         EventHandler.init();
-        IEventBus modBus = context.getModEventBus();
         modBus.addListener(this::commonSetup);
         modBus.addListener(ModDataGenerator::generateData);
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-        context.registerExtensionPoint(
-                IExtensionPoint.DisplayTest.class,
-                () -> new IExtensionPoint.DisplayTest(
-                        () -> NetworkConstants.IGNORESERVERONLY,
-                        (remoteVersionString, isServer) -> true
-                )
-        );
+        mod.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

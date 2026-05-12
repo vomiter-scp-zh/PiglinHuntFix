@@ -9,8 +9,10 @@ import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.SpectralArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
 public class ProjectileSwapHandler {
 
@@ -33,7 +35,7 @@ public class ProjectileSwapHandler {
         event.setCanceled(true);
 
         // 生成 spectral arrow
-        final SpectralArrow spectral = new SpectralArrow(EntityType.SPECTRAL_ARROW, level);
+        final SpectralArrow spectral = new SpectralArrow(level, (LivingEntity) arrow.getOwner(), new ItemStack(Items.SPECTRAL_ARROW), arrow.getWeaponItem());
 
         // 位置 / 旋轉：用原本箭的 spawn 狀態
         spectral.moveTo(arrow.getX(), arrow.getY(), arrow.getZ(), arrow.getYRot(), arrow.getXRot());
@@ -55,9 +57,7 @@ public class ProjectileSwapHandler {
     private static void copyArrowCommonFlags(AbstractArrow src, AbstractArrow dst) {
         // 傷害 / 擊退 / 暴擊 / 穿刺 / 拾取
         dst.setBaseDamage(src.getBaseDamage());
-        dst.setKnockback(src.getKnockback());
         dst.setCritArrow(src.isCritArrow());
-        dst.setPierceLevel(src.getPierceLevel());
         dst.pickup = src.pickup;
 
         // 著火（如果原箭帶火）

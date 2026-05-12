@@ -1,12 +1,12 @@
 package com.vomiter.piglinhuntfix.mixin;
 
 import com.vomiter.piglinhuntfix.PHFHelpers;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,7 +19,7 @@ public class PiglinMixin {
         if(cir.getReturnValue()) return;
         if(new ItemStack(item).is(
                 TagKey.create(
-                        ForgeRegistries.ITEMS.getRegistryKey(),
+                        BuiltInRegistries.ITEM.key(),
                         PHFHelpers.id("crossbows_piglin_do_not_use")
                         )
         )) return;

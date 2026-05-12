@@ -1,18 +1,18 @@
 package com.vomiter.piglinhuntfix;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
-@Mod.EventBusSubscriber(modid = PiglinHuntFix.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = PiglinHuntFix.MOD_ID)
 public class Config {
 
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    // ===== ForgeConfigSpec values =====
-    private static final ForgeConfigSpec.BooleanValue PIGLIN_USE_SPECTRAL_ARROW_VALUE;
-    private static final ForgeConfigSpec.BooleanValue GLOWING_HOGLIN_BROADCAST_HUNTING_VALUE;
+    // ===== ModConfigSpec values =====
+    private static final ModConfigSpec.BooleanValue PIGLIN_USE_SPECTRAL_ARROW_VALUE;
+    private static final ModConfigSpec.BooleanValue GLOWING_HOGLIN_BROADCAST_HUNTING_VALUE;
 
     // ===== Cached primitives =====
     public static boolean PIGLIN_USE_SPECTRAL_ARROW;
@@ -32,7 +32,7 @@ public class Config {
         BUILDER.pop();
     }
 
-    static final ForgeConfigSpec SPEC = BUILDER.build();
+    static final ModConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
